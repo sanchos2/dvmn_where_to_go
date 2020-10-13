@@ -134,3 +134,4 @@ dmypy.json
 db.sqlite3
 static/jpeg
 venv/
+media/

@@ -17,4 +17,4 @@ class Image(models.Model):
         Place,
         on_delete=models.CASCADE
     )
-    picture = models.ImageField(upload_to='static/jpeg')
+    picture = models.ImageField()
