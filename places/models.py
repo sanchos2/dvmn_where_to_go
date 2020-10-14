@@ -15,6 +15,7 @@ class Place(models.Model):
 class Image(models.Model):
     place = models.ForeignKey(
         Place,
-        on_delete=models.CASCADE
+        on_delete=models.CASCADE,
+        related_name='images'
     )
     picture = models.ImageField()
