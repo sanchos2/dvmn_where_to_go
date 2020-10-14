@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.urls import reverse
 
 from .models import Place
 
@@ -20,7 +21,7 @@ def index(request):
                 "properties": {
                     "title": place.title,
                     "placeId": place.id,
-                    "detailsUrl": "./static/places/moscow_legends.json"
+                    "detailsUrl": reverse('place', kwargs={'pk': place.pk})
                     }
             }
         )
