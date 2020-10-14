@@ -1,7 +1,17 @@
 from django.contrib import admin
 
-from .models import Image, Place
+from . import models
 
 
-admin.site.register(Place)
-admin.site.register(Image)
+class ImageInline(admin.TabularInline):
+    model = models.Image
+
+
+class PlacesAdmin(admin.ModelAdmin):
+    inlines = [
+        ImageInline,
+    ]
+
+
+admin.site.register(models.Place, PlacesAdmin)
+admin.site.register(models.Image)

@@ -19,3 +19,7 @@ class Image(models.Model):
         related_name='images'
     )
     picture = models.ImageField()
+    picture_index = models.PositiveIntegerField(default=1)
+
+    def __str__(self):
+        return f'{self.picture_index} {self.place}'
