@@ -23,3 +23,6 @@ class Image(models.Model):
 
     def __str__(self):
         return f'{self.picture_index} {self.place}'
+
+    class Meta:
+        ordering = ('picture_index', )
