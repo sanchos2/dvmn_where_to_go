@@ -26,4 +26,3 @@ class PlacesAdmin(admin.ModelAdmin):
 
 
 admin.site.register(models.Place, PlacesAdmin)
-admin.site.register(models.Image)

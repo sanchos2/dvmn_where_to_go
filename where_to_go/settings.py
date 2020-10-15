@@ -82,8 +82,12 @@ WSGI_APPLICATION = 'where_to_go.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': os.getenv('DB_ENGINE'),
+        'HOST': os.getenv('DB_HOST'),
+        'PORT': os.getenv('DB_PORT'),
+        'NAME': os.getenv('DB_NAME'),
+        'USER': os.getenv('DB_USER'),
+        'PASSWORD': os.getenv('DB_PASSWORD'),
     }
 }
 
@@ -131,10 +135,9 @@ STATICFILES_DIRS = [
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
-SECURE_HSTS_SECONDS = os.getenv('SECURE_HSTS_SECONDS')
-SECURE_HSTS_INCLUDE_SUBDOMAINS = os.getenv('SECURE_HSTS_INCLUDE_SUBDOMAINS')
-SECURE_SSL_REDIRECT = os.getenv('SECURE_SSL_REDIRECT')
-SESSION_COOKIE_SECURE = os.getenv('SESSION_COOKIE_SECURE')
-CSRF_COOKIE_SECURE = os.getenv('CSRF_COOKIE_SECURE')
-SECURE_HSTS_PRELOAD = os.getenv('SECURE_HSTS_PRELOAD')
-print(SECURE_SSL_REDIRECT)
+# SECURE_HSTS_SECONDS = os.getenv('SECURE_HSTS_SECONDS')
+# SECURE_HSTS_INCLUDE_SUBDOMAINS = os.getenv('SECURE_HSTS_INCLUDE_SUBDOMAINS')
+# SECURE_SSL_REDIRECT = os.getenv('SECURE_SSL_REDIRECT')
+# SESSION_COOKIE_SECURE = os.getenv('SESSION_COOKIE_SECURE')
+# CSRF_COOKIE_SECURE = os.getenv('CSRF_COOKIE_SECURE')
+# SECURE_HSTS_PRELOAD = os.getenv('SECURE_HSTS_PRELOAD')
