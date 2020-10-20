@@ -1,8 +1,9 @@
+"""Urls."""
 from django.urls import path
 
-from . import get_places, views
+from places import get_places, views
 
 urlpatterns = [
     path('', views.index, name='index'),
-    path('places/<int:pk>/', get_places.point, name='place')
+    path('places/<int:pk>/', get_places.point, name='place'),
 ]

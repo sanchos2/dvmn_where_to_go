@@ -1,29 +1,35 @@
+"""Views."""
 from django.shortcuts import render
 from django.urls import reverse
 
-from .models import Place
+from places.models import Place
 
 
 def index(request):
+    """Render template with context.
+
+    :param request: request
+    :return: returns
+    """
     places = Place.objects.all()
-    data = {
-        "type": "FeatureCollection",
-        "features": []
+    place_data = {
+        'type': 'FeatureCollection',
+        'features': [],
     }
     for place in places:
-        data["features"].append(
+        place_data['features'].append(
             {
-                "type": "Feature",
-                "geometry": {
-                    "type": "Point",
-                    "coordinates": [place.lng, place.lat]
-                    },
-                "properties": {
-                    "title": place.title,
-                    "placeId": place.id,
-                    "detailsUrl": reverse('place', kwargs={'pk': place.pk})
-                    }
-            }
+                'type': 'Feature',
+                'geometry': {
+                    'type': 'Point',
+                    'coordinates': [place.lng, place.lat],
+                },
+                'properties': {
+                    'title': place.title,
+                    'placeId': place.id,
+                    'detailsUrl': reverse('place', kwargs={'pk': place.pk}),
+                },
+            },
         )
-    context = {'data': data}
+    context = {'data': place_data}
     return render(request, 'index.html', context=context)

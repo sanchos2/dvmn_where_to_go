@@ -1,11 +1,19 @@
-from django.http import HttpResponse, JsonResponse
-from django.shortcuts import get_object_or_404
+"""Get places."""
 from django.conf import settings
+from django.http import JsonResponse
+from django.shortcuts import get_object_or_404
 
-from .models import Place
+from places.models import Place
 
 
-def point(request, pk):
+def point(request, pk):  # noqa: WPS210
+    """
+    Get point.
+
+    :param request:
+    :param pk:
+    :return:
+    """
     place = get_object_or_404(Place, pk=pk)
     image_url = []
     list_image = place.images.all()
@@ -19,7 +27,7 @@ def point(request, pk):
         'description_long': place.description_long,
         'coordinates': {
             'lng': place.lng,
-            'lat': place.lat
-        }
+            'lat': place.lat,
+        },
     }
     return JsonResponse(response, json_dumps_params={'ensure_ascii': False, 'indent': 4})
