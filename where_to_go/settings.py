@@ -25,10 +25,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.getenv('SECRET_KEY')
+SECRET_KEY = os.getenv('SECRET_KEY', '^-nu-(ux4#2wzd4d@(3=&q4_$7$6e55sa3^t^7(e60@civ!vz*')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = int(os.getenv('DEBUG'))
+DEBUG = int(os.getenv('DEBUG', 0))
 
 ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS').split(" ")
 
@@ -83,10 +83,10 @@ WSGI_APPLICATION = 'where_to_go.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': os.getenv('DB_ENGINE'),
+        'ENGINE': os.getenv('DB_ENGINE', 'django.db.backends.sqlite3'),
         'HOST': os.getenv('DB_HOST'),
         'PORT': os.getenv('DB_PORT'),
-        'NAME': os.getenv('DB_NAME'),
+        'NAME': os.getenv('DB_NAME', BASE_DIR / 'db.sqlite3'),
         'USER': os.getenv('DB_USER'),
         'PASSWORD': os.getenv('DB_PASSWORD'),
     }
