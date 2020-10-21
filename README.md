@@ -28,9 +28,28 @@ source venv/bin/activate.sh
 pip3 install -r requirements.txt
 ```
 
+Make migrations
+
+```
+python manage.py migrate
+```
+
+Create site admin
+
+```
+python manage.py createsuperuser
+```
+
+Collect static files to a static root
+
+```
+python manage.py collectstatic
+```
+
 Add environment variables:
 
 ```
+DB_ENGINE=django.db.backends.postgresql    or other db backend see Django Docs 
 DB_HOST=database server address
 DB_PORT=database server port
 DB_NAME=database name
@@ -40,6 +59,7 @@ SECRET_KEY=secret key
 DEBUG=0(False) or 1(True)
 ```
 note: on production environment setup DEBUG to 0(False)
+
 
 ## How to run
 
