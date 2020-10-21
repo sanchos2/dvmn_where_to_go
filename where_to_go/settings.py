@@ -30,7 +30,7 @@ SECRET_KEY = os.getenv('SECRET_KEY', '^-nu-(ux4#2wzd4d@(3=&q4_$7$6e55sa3^t^7(e60
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = int(os.getenv('DEBUG', 0))
 
-ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS').split(" ")
+ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', '127.0.0.1 [::1]').split(" ")
 
 
 # Application definition
@@ -117,7 +117,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'ru-Ru'
 
-TIME_ZONE = 'Europe/Moscow'
+TIME_ZONE = 'UTC'
 
 USE_I18N = True
 
