@@ -132,7 +132,7 @@ dmypy.json
 .replit
 
 db.sqlite3
-static/jpeg
+static/
 venv/
 media/
 .env
