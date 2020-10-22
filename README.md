@@ -5,9 +5,9 @@ This is a learning project from [devman](https://dvmn.org/modules/django/) (less
 [![wemake-python-styleguide](https://img.shields.io/badge/style-wemake-000000.svg)](https://github.com/wemake-services/wemake-python-styleguide)
 [![Build Status](https://travis-ci.org/sanchos2/dvmn_where_to_go.svg?branch=main)](https://travis-ci.org/sanchos2/dvmn_where_to_go)
 
-[Project demo version](http://site.nautilus.com.ru)
+[Project demo version](https://sanchos2004.pythonanywhere.com/)
 
-[Admin panel](http://site.nautilus.com.ru/admin)
+[Admin panel](https://sanchos2004.pythonanywhere.com/admin/)
 
 ## How to deploy
 
@@ -30,19 +30,19 @@ pip3 install -r requirements.txt
 
 Make migrations
 
-```
+```sh
 python manage.py migrate
 ```
 
 Create site admin
 
-```
+```sh
 python manage.py createsuperuser
 ```
 
 Collect static files to a static root
 
-```
+```sh
 python manage.py collectstatic
 ```
 
@@ -66,7 +66,33 @@ note: on production environment setup DEBUG to 0(False)
 Run project
 
 ```sh
-python3 manage.py runserver 127.0.0.1:8000
+python manage.py runserver 127.0.0.1:8000
 ```
 
 Use http://127.0.0.1:8000 to browse a project
+
+
+## How to load data from json
+
+Open console and run command
+
+```sh
+python manage.py load_place http://file_url.json
+```
+
+JSON file structure
+
+```json
+{
+    "title": "Place name",
+    "imgs": [
+        "URL to image file"
+    ],
+    "description_short": "Short description",
+    "description_long": "Detailed description",
+    "coordinates": {
+        "lng": "37.61171499999998",
+        "lat": "55.81972699999998"
+    }
+}
+```
