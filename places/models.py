@@ -31,7 +31,7 @@ class Image(models.Model):
         related_name='images',
     )
     picture = models.ImageField()
-    picture_index = models.PositiveIntegerField(default=1)
+    picture_index = models.PositiveIntegerField(default=0, blank=False, null=False)
 
     def __str__(self):
         """Return humans string."""
