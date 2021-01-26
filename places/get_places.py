@@ -1,30 +1,19 @@
-"""Get places."""
-from django.conf import settings
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpRequest
 from django.shortcuts import get_object_or_404
 
 from places.models import Place
 
 
-def point(request, pk):  # noqa: WPS210
-    """
-    Get point.
-
-    :param request:
-    :param pk:
-    :return:
-    """
+def get_point(request: HttpRequest, pk: int) -> JsonResponse:  # noqa: WPS210
+    """Get point by id."""
     place = get_object_or_404(Place, pk=pk)
-    image_url = []
-    list_image = place.images.all()
-    for url in list_image:
-        relative_url = settings.MEDIA_URL + str(url.picture)
-        image_url.append(relative_url)
+    images = place.images.all()
+    images_urls = [image.picture.url for image in images]
     response = {
         'title': place.title,
-        'imgs': image_url,
-        'description_short': place.description_short,
-        'description_long': place.description_long,
+        'imgs': images_urls,
+        'description_short': place.short_description,
+        'description_long': place.long_description,
         'coordinates': {
             'lng': place.lng,
             'lat': place.lat,
