@@ -1,18 +1,16 @@
-"""Views."""
+from typing import Any, Dict, Union
+
+from django.http import HttpRequest, HttpResponse
 from django.shortcuts import render
 from django.urls import reverse
 
 from places.models import Place
 
 
-def index(request):
-    """Render template with context.
-
-    :param request: request
-    :return: returns
-    """
+def index(request: HttpRequest) -> HttpResponse:
+    """Render template with context."""
     places = Place.objects.all()
-    place_data = {
+    place_data: Dict[str, Union[Any]] = {
         'type': 'FeatureCollection',
         'features': [],
     }
