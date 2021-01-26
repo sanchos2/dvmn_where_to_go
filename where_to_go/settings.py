@@ -15,6 +15,7 @@ import os
 from pathlib import Path
 
 from dotenv import load_dotenv
+
 load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -28,10 +29,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.getenv('SECRET_KEY', '^-nu-(ux4#2wzd4d@(3=&q4_$7$6e55sa3^t^7(e60@civ!vz*')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = int(os.getenv('DEBUG', 0))
+DEBUG = os.getenv('DEBUG', 'true').lower() in ['yes', '1', 'true']
 
-ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', '127.0.0.1 [::1]').split(" ")
-
+# [::1] - ipv6 localhost
+ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', '127.0.0.1 [::1]').split(' ')
 
 # Application definition
 
@@ -117,7 +118,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'ru-Ru'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Europe/Moscow'
 
 USE_I18N = True
 
@@ -128,17 +129,11 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 STATIC_URL = '/static/'
-# STATICFILES_DIRS = [
-#     os.path.join(BASE_DIR, 'static'),
-# ]
-MEDIA_URL = '/media/'
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/media/'
 
-SECURE_HSTS_SECONDS = os.getenv('SECURE_HSTS_SECONDS', False)
-SECURE_HSTS_INCLUDE_SUBDOMAINS = os.getenv('SECURE_HSTS_INCLUDE_SUBDOMAINS', False)
 SECURE_SSL_REDIRECT = os.getenv('SECURE_SSL_REDIRECT', False)
-SESSION_COOKIE_SECURE = os.getenv('SESSION_COOKIE_SECURE', False)
 CSRF_COOKIE_SECURE = os.getenv('CSRF_COOKIE_SECURE', False)
-SECURE_HSTS_PRELOAD = os.getenv('SECURE_HSTS_PRELOAD', False)
