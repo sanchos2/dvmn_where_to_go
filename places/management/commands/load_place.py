@@ -1,4 +1,5 @@
-"""Load places."""
+from typing import Dict
+
 import requests
 from django.core.files.base import ContentFile
 from django.core.management.base import BaseCommand, CommandError
@@ -6,30 +7,16 @@ from django.core.management.base import BaseCommand, CommandError
 from places.models import Image, Place
 
 
-def get_content(url):
-    """
-    Get content.
-
-    :param url:
-    :return:
-    """
-    try:  # noqa: WPS229
-        req = requests.get(url=url)
-        req.raise_for_status()
-    except (requests.RequestException, ValueError):
-        print('Network Error')  # noqa: WPS421
-        return False
-    return req
+def get_response(url: str) -> requests.models.Response:
+    """Get response."""
+    response = requests.get(url=url)
+    response.raise_for_status()
+    return response
 
 
-def create_place(url):
-    """
-    Create place.
-
-    :param url:
-    :return:
-    """
-    raw_data = get_content(url)
+def create_place(url: str) -> None:
+    """Create place."""
+    raw_data = get_response(url)
     pretty_data = raw_data.json()
     obj, created = Place.objects.get_or_create(  # noqa: WPS110
         title=pretty_data['title'],
@@ -41,7 +28,7 @@ def create_place(url):
     if created:
         for img_url in pretty_data['imgs']:
             file_name = img_url.split('/')
-            img_data = get_content(img_url)
+            img_data = get_response(img_url)
             file_content = ContentFile(img_data.content)
             new_image = Image.objects.create(place_id=obj.pk)
             new_image.picture.save(file_name[-1], content=file_content, save=True)
@@ -52,33 +39,22 @@ class Command(BaseCommand):
 
     help = 'Download place from json'  # noqa: WPS125
 
-    def add_arguments(self, parser):
-        """
-        Added arguments.
-
-        :param parser:
-        :return:
-        """
+    def add_arguments(self, parser) -> None:
+        """Added arguments."""
         parser.add_argument('url', nargs='+', type=str)
 
-    def handle(self, *args, **options):  # noqa: WPS110
-        """
-        Handle function.
-
-        :param args:
-        :param options:
-        :return:
-        :raises KeyError: If key does not exist
-        :raises ValueError: Wrong format data(m.b. not JSON)
-        """
+    def handle(self, *args: str, **options: Dict[str, str]) -> None:  # noqa: WPS110, WPS231
+        """Handle function."""
         for url in options['url']:
             try:
                 create_place(url)
             except KeyError:
-                raise CommandError('Missing required key')
+                raise CommandError('Missing required key.')
             except ValueError:
-                raise CommandError('Wrong format data')
+                raise CommandError('Wrong format data.')
+            except requests.exceptions.HTTPError:
+                raise CommandError('Network error.')
 
             self.stdout.write(
-                self.style.SUCCESS('Successfully added place'),
+                self.style.SUCCESS('Successfully added place.'),
             )
