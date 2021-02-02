@@ -34,12 +34,7 @@ class Image(models.Model):
         verbose_name='Расположение',
     )
     picture = models.ImageField('Фотография')
-    picture_index = models.PositiveIntegerField(
-        'ID фотографии',
-        default=0,
-        blank=False,
-        null=False,
-    )
+    picture_index = models.PositiveIntegerField('ID фотографии', default=0)
 
     def __str__(self) -> str:
         """Return humans string."""
