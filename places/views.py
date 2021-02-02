@@ -1,21 +1,18 @@
-from typing import Any, Dict, Union
-
-from django.http import HttpRequest, HttpResponse
 from django.shortcuts import render
 from django.urls import reverse
 
 from places.models import Place
 
 
-def index(request: HttpRequest) -> HttpResponse:
+def index(request):
     """Render template with context."""
     places = Place.objects.all()
-    place_data: Dict[str, Union[Any]] = {
+    serialized_places = {
         'type': 'FeatureCollection',
         'features': [],
     }
     for place in places:
-        place_data['features'].append(
+        serialized_places['features'].append(
             {
                 'type': 'Feature',
                 'geometry': {
@@ -29,5 +26,5 @@ def index(request: HttpRequest) -> HttpResponse:
                 },
             },
         )
-    context = {'data': place_data}
+    context = {'serialized_places': serialized_places}
     return render(request, 'index.html', context=context)
