@@ -4,7 +4,6 @@ django-admin-sortable2==0.7.7
 django-stubs==1.7.0
 django-tinymce==3.1.0
 gunicorn==20.0.4
-flake8-annotations-coverage==0.0.5
 mypy==0.800
 Pillow==7.2.0
 psycopg2==2.8.6
