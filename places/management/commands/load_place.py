@@ -7,16 +7,10 @@ from django.core.management.base import BaseCommand, CommandError
 from places.models import Image, Place
 
 
-def get_response(url: str) -> requests.models.Response:
-    """Get response."""
-    response = requests.get(url=url)
-    response.raise_for_status()
-    return response
-
-
 def create_place(url: str) -> None:
     """Create place."""
-    raw_data = get_response(url)
+    raw_data = requests.get(url)
+    raw_data.raise_for_status()
     pretty_data = raw_data.json()
     obj, created = Place.objects.get_or_create(  # noqa: WPS110
         title=pretty_data['title'],
@@ -28,7 +22,8 @@ def create_place(url: str) -> None:
     if created:
         for img_url in pretty_data['imgs']:
             file_name = img_url.split('/')
-            img_data = get_response(img_url)
+            img_data = requests.get(img_url)
+            img_data.raise_for_status()
             file_content = ContentFile(img_data.content)
             new_image = Image.objects.create(place_id=obj.pk)
             new_image.picture.save(file_name[-1], content=file_content, save=True)
