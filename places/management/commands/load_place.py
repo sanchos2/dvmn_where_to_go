@@ -1,4 +1,6 @@
+import os
 from typing import Dict
+from urllib.parse import unquote, urlsplit
 
 import requests
 from django.core.files.base import ContentFile
@@ -12,21 +14,24 @@ def create_place(url: str) -> None:
     raw_data = requests.get(url)
     raw_data.raise_for_status()
     pretty_data = raw_data.json()
-    obj, created = Place.objects.get_or_create(  # noqa: WPS110
+    place, created = Place.objects.get_or_create(  # noqa: WPS110
         title=pretty_data['title'],
-        description_short=pretty_data['description_short'],
-        description_long=pretty_data['description_long'],
-        lng=pretty_data['coordinates']['lng'],
-        lat=pretty_data['coordinates']['lat'],
+        defaults={
+            'short_description': pretty_data['description_short'],
+            'long_description': pretty_data['description_long'],
+            'lng': pretty_data['coordinates']['lng'],
+            'lat': pretty_data['coordinates']['lat'],
+        },
     )
     if created:
         for img_url in pretty_data['imgs']:
-            file_name = img_url.split('/')
+            path = unquote(urlsplit(img_url).path)
+            filename = os.path.split(path)[-1]
             img_data = requests.get(img_url)
             img_data.raise_for_status()
             file_content = ContentFile(img_data.content)
-            new_image = Image.objects.create(place_id=obj.pk)
-            new_image.picture.save(file_name[-1], content=file_content, save=True)
+            image = Image.objects.create(place_id=place.pk)
+            image.picture.save(filename, content=file_content, save=True)
 
 
 class Command(BaseCommand):
