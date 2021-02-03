@@ -1,8 +1,8 @@
 from django.urls import path
 
-from places import get_places, views
+from places import views
 
 urlpatterns = [
     path('', views.index, name='index'),
-    path('places/<int:pk>/', get_places.get_point, name='place'),
+    path('places/<int:pk>/', views.get_point, name='place'),
 ]
