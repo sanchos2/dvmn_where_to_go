@@ -11,20 +11,20 @@ from places.models import Image, Place
 
 def create_place(url: str) -> None:
     """Create place."""
-    raw_data = requests.get(url)
-    raw_data.raise_for_status()
-    pretty_data = raw_data.json()
+    response = requests.get(url)
+    response.raise_for_status()
+    payload = response.json()
     place, created = Place.objects.get_or_create(  # noqa: WPS110
-        title=pretty_data['title'],
+        title=payload['title'],
         defaults={
-            'short_description': pretty_data['description_short'],
-            'long_description': pretty_data['description_long'],
-            'lng': pretty_data['coordinates']['lng'],
-            'lat': pretty_data['coordinates']['lat'],
+            'short_description': payload['description_short'],
+            'long_description': payload['description_long'],
+            'lng': payload['coordinates']['lng'],
+            'lat': payload['coordinates']['lat'],
         },
     )
     if created:
-        for img_url in pretty_data['imgs']:
+        for img_url in payload['imgs']:
             path = unquote(urlsplit(img_url).path)
             filename = os.path.split(path)[-1]
             img_data = requests.get(img_url)
