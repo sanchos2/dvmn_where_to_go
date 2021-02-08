@@ -12,16 +12,16 @@ class Place(models.Model):
     lng = models.DecimalField('Долгота', max_digits=16, decimal_places=14)  # noqa: WPS432
     lat = models.DecimalField('Широта', max_digits=16, decimal_places=14)  # noqa: WPS432
 
-    def __str__(self) -> str:
-        """Return humans string."""
-        return self.title
-
     class Meta:  # noqa: WPS306
         """Meta class."""
 
         ordering = ['title']
         verbose_name = 'Расположение'
         verbose_name_plural = 'Расположения'
+
+    def __str__(self) -> str:
+        """Return humans string."""
+        return self.title
 
 
 class Image(models.Model):
@@ -36,13 +36,13 @@ class Image(models.Model):
     picture = models.ImageField('Фотография')
     numeration = models.PositiveIntegerField('ID фотографии', default=0)
 
-    def __str__(self) -> str:
-        """Return humans string."""
-        return f'{self.numeration} {self.place}'
-
     class Meta:  # noqa: WPS306
         """Meta class."""
 
         ordering = ['numeration']
         verbose_name = 'Фотография'
         verbose_name_plural = 'Фотографии'
+
+    def __str__(self) -> str:
+        """Return humans string."""
+        return f'{self.numeration} {self.place}'
