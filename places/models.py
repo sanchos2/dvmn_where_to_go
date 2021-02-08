@@ -34,15 +34,15 @@ class Image(models.Model):
         verbose_name='Расположение',
     )
     picture = models.ImageField('Фотография')
-    picture_index = models.PositiveIntegerField('ID фотографии', default=0)
+    numeration = models.PositiveIntegerField('ID фотографии', default=0)
 
     def __str__(self) -> str:
         """Return humans string."""
-        return f'{self.picture_index} {self.place}'
+        return f'{self.numeration} {self.place}'
 
     class Meta:  # noqa: WPS306
         """Meta class."""
 
-        ordering = ['picture_index']
+        ordering = ['numeration']
         verbose_name = 'Фотография'
         verbose_name_plural = 'Фотографии'
